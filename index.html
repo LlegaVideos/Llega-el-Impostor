@@ -318,6 +318,22 @@
             overflow-y: auto;
             padding: 10px 0;
         }
+        .youtube-link {
+            color: #ff0000;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 16px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .youtube-link:hover {
+            background: rgba(255, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -352,6 +368,9 @@
                 <div class="section-title">🔍 Encontrar al Impostor</div>
                 <p>Discutan y voten sobre quién no conoce la palabra. ¡Si se equivocan, gana el impostor!</p>
             </div>
+            <a href="https://www.youtube.com/@LlegaVideos/videos" target="_blank" class="youtube-link">
+                Si quieres ver mi canal de YouTube Clic Aquí
+            </a>
         </div>
     </div>
 
@@ -461,13 +480,16 @@
             "Frutas": ["manzana", "banana", "naranja", "pera", "uva", "fresa", "sandía", "melón", "piña", "kiwi", "mango", "papaya", "coco", "limón", "lima", "granada", "durazno", "albaricoque", "ciruela", "higo", "frambuesa", "mora", "arándano", "guayaba", "maracuyá", "lichi", "dragon fruit", "carambola", "pomelo", "mandarina"],
             "Verduras": ["lechuga", "tomate", "pepino", "zanahoria", "brócoli", "coliflor", "espinaca", "pimiento", "cebolla", "ajo", "patata", "calabaza", "berenjena", "remolacha", "apio", "espárrago", "col", "rábano", "puerro", "champiñón", "alcachofa", "judía verde", "guisante", "maíz", "nabo", "okura", "chayote", "endibia", "acelga", "ruibarbo"],
             "Utensilios para el colegio": ["lápiz", "bolígrafo", "goma", "sacapuntas", "regla", "compás", "cuaderno", "mochila", "tijeras", "pegamento", "estuche", "calculadora", "rotulador", "subrayador", "carpeta", "folios", "agenda", "pizarra", "tiza", "borrador", "transportador", "diccionario", "libro", "cartulina", "témpera", "pincel", "plastilina", "tijeras de punta redonda", "grapadora", "perforadora"],
-            "Superhéroes": ["superman", "batman", "spider-man", "wonder woman", "iron man", "capitán américa", "thor", "hulk", "black widow", "flash", "aquaman", "green lantern", "doctor strange", "wolverine", "deadpool", "capitana marvel", "black panther", "ant-man", "wasp", "hawkman", "shazam", "cyborg", "supergirl", "green arrow", "nightwing", "robin", "batgirl", "storm", "jean grey", "cyclops"],
-            "Personas famosas": ["cristiano ronaldo", "lionel messi", "beyoncé", "taylor swift", "elvis presley", "michael jackson", "madonna", "donald trump", "barack obma", "queen elizabeth", "albert einstein", "stephen hawking", "picasso", "van gogh", "shakespeare", "messi", "neymar", "lebron james", "michael jordan", "oprah winfrey", "angelina jolie", "brad pitt", "leonardo dicaprio", "johnny depp", "tom cruise", "jennifer lopez", "lady gaga", "rihanna", "justin bieber", "drake"],
+            "Superhéroes": ["superman", "batman", "spiderman", "thor", "hulk", "iron man", "capitán américa", "wolverine", "deadpool", "flash", "aquaman", "linterna verde", "mujer maravilla", "bruja escarlata", "venom", "carnage", "thanos", "loki", "doctor strange", "pantera negra", "ant-man", "avispa", "falcon", "viuda negra", "ojo de halcón", "máquina de guerra", "visión", "quick silver", "capitana marvel", "shazam"],
+            "Personas famosas": ["cristiano ronaldo", "lionel messi", "beyoncé", "taylor swift", "elvis presley", "michael jackson", "madonna", "donald trump", "barack obama", "queen elizabeth", "albert einstein", "stephen hawking", "picasso", "van gogh", "shakespeare", "messi", "neymar", "lebron james", "michael jordan", "oprah winfrey", "angelina jolie", "brad pitt", "leonardo dicaprio", "johnny depp", "tom cruise", "jennifer lopez", "lady gaga", "rihanna", "justin bieber", "drake"],
             "Cosas que hay en una cocina": ["olla", "sartén", "cuchillo", "tenedor", "cuchara", "plato", "vaso", "taza", "cafetera", "tostadora", "microondas", "horno", "nevera", "lavavajillas", "fregadero", "encimera", "armario", "estantería", "tabla de cortar", "batidora", "licuadora", "exprimidor", "rallador", "colador", "cucharón", "espátula", "rodillo", "molde", "termómetro", "papel de horno"],
             "Malas costumbres": ["fumar", "comerse las uñas", "llegar tarde", "interrumpir", "chismorrear", "mentir", "procastinar", "gritar", "ser egoísta", "no escuchar", "juzgar", "criticar", "quejarse", "envidiar", "celar", "robar", "engañar", "gastar demasiado", "comer comida chatarra", "beber en exceso", "ver demasiada tv", "usar mucho el móvil", "no hacer ejercicio", "dormir poco", "hablar alto", "ser desordenado", "no lavarse las manos", "morderse los labios", "tocarse el pelo", "rascarse"],
             "Enfermedades": ["gripe", "resfriado", "dolor de cabeza", "fiebre", "tos", "dolor de garganta", "diarrea", "vómitos", "alergia", "asma", "diabetes", "hipertensión", "cáncer", "artritis", "alzheimer", "parkinson", "epilepsia", "migraña", "apendicitis", "neumonía", "bronquitis", "hepatitis", "varicela", "sarampión", "rubeola", "paperas", "dengue", "malaria", "covid-19", "ébola"],
             "Sexo": ["pene", "vagina", "orgasmo", "beso", "caricia", "masturbación", "coito", "felación", "cunnilingus", "anal", "condón", "lubricante", "vibrador", "dildo", "eyaculación", "erección", "clítoris", "labios", "testículos", "ovarios", "útero", "semen", "menstruación", "libido", "afrodisíaco", "fetiche", "sadomasoquismo", "trío", "orgía", "preliminares"]
         };
+
+        // Lista de emojis de animales para los jugadores
+        const animalEmojis = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮", "🐷", "🐸", "🐵", "🐔", "🐧", "🐦", "🐤", "🦆", "🦅", "🦉", "🦇", "🐺", "🐗", "🐴", "🦄", "🐝", "🐛", "🦋", "🐌", "🐞", "🐜", "🦟", "🦗", "🦂", "🐢", "🐍", "🦎", "🦖", "🦕", "🐙", "🦑", "🦐", "🦞", "🦀", "🐡", "🐠", "🐟", "🐬", "🐳", "🐋", "🦈", "🐊", "🐅", "🐆", "🦓", "🦍", "🦧", "🦣", "🐘", "🦛", "🦏", "🐪", "🐫", "🦒", "🦘", "🦬", "🐃", "🐂", "🐄", "🐎", "🐖", "🐏", "🐑", "🦙", "🐐", "🦌", "🐕", "🐩", "🦮", "🐕‍🦺", "🐈", "🐈‍⬛", "🦤", "🦢", "🦩", "🦚", "🦜", "🐇", "🦝", "🦨", "🦡", "🦫", "🦦", "🦥", "🐁", "🐀", "🦔"];
 
         let players = [];
         let impostors = [];
@@ -476,6 +498,7 @@
         let hints = {};
         let currentPlayerIndex = -1;
         let revealedPlayers = new Set();
+        let playerEmojis = {}; // Objeto para almacenar emojis por jugador
 
         function showScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -525,41 +548,69 @@
             });
         }
 
+        // Función para generar números aleatorios más seguros
+        function getRandomInt(max) {
+            // Usar crypto.getRandomValues si está disponible para mejor aleatoriedad
+            if (window.crypto && window.crypto.getRandomValues) {
+                const array = new Uint32Array(1);
+                window.crypto.getRandomValues(array);
+                return array[0] % max;
+            } else {
+                // Fallback a Math.random si no está disponible
+                return Math.floor(Math.random() * max);
+            }
+        }
+
         function startGame() {
             // Get final players names
             document.getElementById('players-list').querySelectorAll('input').forEach((input, i) => {
                 players[i] = input.value || `Jugador ${i + 1}`;
             });
 
-            // Get current time for seed
-            const now = new Date();
-            const hour = now.getHours();
-            const min = now.getMinutes();
-            const sec = now.getSeconds();
-            const seed = hour * 3600 + min * 60 + sec;
+            // Resetear emojis de jugadores
+            playerEmojis = {};
+            let availableEmojis = [...animalEmojis]; // Copiar array de emojis disponibles
+            
+            // Asignar emojis únicos a cada jugador
+            players.forEach((player, index) => {
+                if (availableEmojis.length === 0) {
+                    // Si nos quedamos sin emojis únicos, reiniciamos la lista
+                    availableEmojis = [...animalEmojis];
+                }
+                const randomIndex = getRandomInt(availableEmojis.length);
+                playerEmojis[index] = availableEmojis[randomIndex];
+                availableEmojis.splice(randomIndex, 1); // Eliminar emoji usado
+            });
 
             // Choose category
             let selectedCat = document.getElementById('category-select').value;
             const catKeys = Object.keys(categories);
             if (selectedCat === 'random') {
-                const catIndex = seed % catKeys.length;
+                const catIndex = getRandomInt(catKeys.length);
                 selectedCat = catKeys[catIndex];
             }
             secretCategory = selectedCat;
             const words = categories[secretCategory];
-            const wordIndex = seed % words.length;
+            
+            // Seleccionar palabra secreta de forma aleatoria
+            const wordIndex = getRandomInt(words.length);
             secretWord = words[wordIndex];
 
-            // Assign impostors using time-based "random"
+            // Assign impostors de forma totalmente aleatoria
             const numImpostors = parseInt(document.getElementById('impostors-count').textContent);
             impostors = [];
-            let tempPlayers = [...Array(players.length).keys()];
-            // Simple shuffle with seed
-            for (let i = tempPlayers.length - 1; i > 0; i--) {
-                const j = (seed + i) % (i + 1);
-                [tempPlayers[i], tempPlayers[j]] = [tempPlayers[j], tempPlayers[i]];
+            
+            // Crear array con índices de jugadores
+            let playerIndices = [...Array(players.length).keys()];
+            
+            // Mezclar aleatoriamente los índices
+            for (let i = playerIndices.length - 1; i > 0; i--) {
+                const j = getRandomInt(i + 1);
+                [playerIndices[i], playerIndices[j]] = [playerIndices[j], playerIndices[i]];
             }
-            impostors = tempPlayers.slice(0, numImpostors);
+            
+            // Tomar los primeros numImpostors como impostores
+            impostors = playerIndices.slice(0, numImpostors);
 
             revealedPlayers.clear();
             updatePlayersGrid();
@@ -579,7 +630,7 @@
                 }
                 const initial = document.createElement('div');
                 initial.classList.add('player-initial');
-                initial.textContent = name[0].toUpperCase();
+                initial.textContent = playerEmojis[i] || "👤"; // Usar emoji o fallback
                 const nameElem = document.createElement('div');
                 nameElem.classList.add('player-name');
                 nameElem.textContent = name;
