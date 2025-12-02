@@ -28,10 +28,6 @@
             color: white;
             height: 100vh;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             touch-action: manipulation;
         }
         .screen {
@@ -40,52 +36,59 @@
             height: 100%;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             padding: 20px;
             box-sizing: border-box;
             overflow-y: auto;
+            justify-content: flex-start;
+            padding-top: 5%;
+            padding-bottom: 20%;
         }
         .active {
             display: flex;
         }
         .logo {
-            font-size: 48px;
+            font-size: 32px;
             font-weight: bold;
             text-shadow: 0 0 10px #8B00FF, 0 0 20px #4B0082;
             margin-bottom: 20px;
             text-align: center;
             width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .subtitle {
-            font-size: 18px;
+            font-size: 16px;
             color: #ccc;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            line-height: 1.4;
         }
         .button {
             background: linear-gradient(to bottom, #8B00FF, #4B0082);
             color: white;
             border: none;
             border-radius: 30px;
-            padding: 15px 30px;
-            font-size: 20px;
+            padding: 15px 20px;
+            font-size: 18px;
             font-weight: bold;
             margin: 10px 0;
             width: 80%;
-            max-width: 300px;
+            max-width: 280px;
             box-shadow: 0 0 10px #8B00FF;
             cursor: pointer;
             touch-action: manipulation;
         }
         .how-to-play {
-            font-size: 24px;
-            margin: 20px 0;
+            font-size: 22px;
+            margin: 15px 0;
+            text-align: center;
         }
         .section {
             background: rgba(255,255,255,0.05);
             border-radius: 15px;
-            padding: 15px;
-            margin: 10px 0;
+            padding: 12px;
+            margin: 8px 0;
             width: 90%;
             display: flex;
             flex-direction: column;
@@ -93,13 +96,21 @@
             justify-content: center;
         }
         .section-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .section p {
+            font-size: 14px;
+            text-align: center;
+            margin: 5px 0;
+            line-height: 1.3;
         }
         .config-label {
-            font-size: 18px;
-            margin: 10px 0;
+            font-size: 16px;
+            margin: 8px 0;
+            text-align: center;
         }
         .counter {
             display: flex;
@@ -112,14 +123,14 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 24px;
+            width: 35px;
+            height: 35px;
+            font-size: 20px;
             margin: 0 10px;
             box-shadow: 0 0 5px #8B00FF;
         }
         .counter-value {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
         }
         .players-list {
@@ -132,11 +143,12 @@
             background: rgba(255,255,255,0.1);
             border: none;
             color: white;
-            padding: 10px;
-            margin: 5px 0;
+            padding: 8px;
+            margin: 4px 0;
             width: 100%;
             border-radius: 10px;
             text-align: center;
+            font-size: 14px;
         }
         select {
             background: #4B0082;
@@ -147,18 +159,19 @@
             width: 90%;
             margin: 10px 0;
             text-align: center;
+            font-size: 14px;
         }
         .players-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 15px;
             width: 90%;
-            margin: 20px 0;
+            margin: 15px 0;
         }
         .player-card {
             background: linear-gradient(to bottom, #4B0082, #2A004D);
             border-radius: 15px;
-            padding: 15px;
+            padding: 12px;
             text-align: center;
             box-shadow: 0 0 10px #8B00FF;
             cursor: pointer;
@@ -175,35 +188,36 @@
         .player-initial {
             background: linear-gradient(to bottom, #8B00FF, #4B0082);
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
-            margin: 0 auto 10px;
+            margin: 0 auto 8px;
             box-shadow: 0 0 10px #8B00FF;
         }
         .player-name {
-            font-size: 18px;
+            font-size: 16px;
             text-align: center;
         }
         .reveal-box {
             background: linear-gradient(to bottom, #000066, #000033);
             border-radius: 15px;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
             position: relative;
             overflow: hidden;
             width: 80%;
-            height: 200px;
+            height: 180px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             box-shadow: 0 0 20px #4B0082;
             cursor: pointer;
+            margin: 10px 0;
         }
         .particles {
             position: absolute;
@@ -228,11 +242,11 @@
             100% { transform: translateY(0); }
         }
         .reveal-text {
-            font-size: 24px;
+            font-size: 20px;
             color: #ccc;
         }
         .word {
-            font-size: 36px;
+            font-size: 30px;
             font-weight: bold;
             text-shadow: 0 0 10px cyan, 0 0 20px cyan;
             color: cyan;
@@ -244,7 +258,7 @@
             100% { text-shadow: 0 0 10px cyan, 0 0 20px cyan; }
         }
         .impostor {
-            font-size: 36px;
+            font-size: 30px;
             font-weight: bold;
             color: red;
             text-shadow: 0 0 10px red, 0 0 20px red;
@@ -258,22 +272,23 @@
             100% { transform: translateX(0); }
         }
         .hint {
-            font-size: 24px;
+            font-size: 20px;
             color: #ffcccc;
-            margin-top: 10px;
+            margin-top: 8px;
         }
         .category {
-            font-size: 18px;
+            font-size: 16px;
             color: #ccc;
-            margin-top: 10px;
+            margin-top: 8px;
         }
         .back-button {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 24px;
+            top: 15px;
+            left: 15px;
+            font-size: 22px;
             color: white;
             cursor: pointer;
+            z-index: 10;
         }
         .voting-screen {
             text-align: center;
@@ -286,123 +301,147 @@
             text-align: center;
         }
         .impostor-reveal {
-            font-size: 24px;
+            font-size: 22px;
             color: red;
             margin: 10px 0;
+            text-align: center;
         }
         #proceed-button {
             display: none;
+        }
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 10px 0;
         }
     </style>
 </head>
 <body>
     <div id="start-screen" class="screen active">
         <div class="back-button" onclick="history.back()">&lt;</div>
-        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTUwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjE1MCI+CiAgPHBhdGggZD0iTTUwIDEwIEM3MCAxMCA4NSAyNSA4NSA0NSBDODUgNjUgNzAgODAgNTAgODAgQzMwIDgwIDE1IDY1IDE1IDQ1IEMxNSAyNSAzMCAxMCA1MCAxMCBaIE01MCA4NSBDNzUgODUgOTUgMTAwIDk1IDEyMCBWMTUwIEg1IFYxMjAgQzUgMTAwIDI1IDg1IDUwIDg1IFoiIGZpbGw9InJlZCIvPgo8L3N2Zz4=" style="width: 200px; filter: drop-shadow(0 0 10px #FF0000); margin-bottom: 20px;" alt="Impostor Logo">
-        <div class="logo">Llega el Impostor</div>
-        <div class="subtitle">Juego de fiesta con ideas ocultas y pistas astutas</div>
-        <button class="button" onclick="showScreen('config-screen')">Empezar</button>
-        <button class="button" onclick="showScreen('howto-screen')">Cómo jugar</button>
+        <div class="content-container">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTUwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjE1MCI+CiAgPHBhdGggZD0iTTUwIDEwIEM3MCAxMCA4NSAyNSA4NSA0NSBDODUgNjUgNzAgODAgNTAgODAgQzMwIDgwIDE1IDY1IDE1IDQ1IEMxNSAyNSAzMCAxMCA1MCAxMCBaIE01MCA4NSBDNzUgODUgOTUgMTAwIDk1IDEyMCBWMTUwIEg1IFYxMjAgQzUgMTAwIDI1IDg1IDUwIDg1IFoiIGZpbGw9InJlZCIvPgo8L3N2Zz4=" style="width: 100px; filter: drop-shadow(0 0 10px #FF0000); margin-bottom: 15px;" alt="Impostor Logo">
+            <div class="logo">Llega el Impostor</div>
+            <div class="subtitle">Juego de fiesta con ideas ocultas y pistas astutas</div>
+            <button class="button" onclick="showScreen('config-screen')">Empezar</button>
+            <button class="button" onclick="showScreen('howto-screen')">Cómo jugar</button>
+        </div>
     </div>
 
     <div id="howto-screen" class="screen">
         <div class="back-button" onclick="showScreen('start-screen')">&lt;</div>
-        <div class="how-to-play">Cómo jugar</div>
-        <div class="section">
-            <div class="section-title">⚙️ Configurar Juego</div>
-            <p>Elige jugadores y categorías de palabras. ¡Un jugador será el impostor secreto!</p>
-        </div>
-        <div class="section">
-            <div class="section-title">👁️ Revelar Palabras</div>
-            <p>Todos ven su palabra excepto el impostor - ellos solo ven la categoría.</p>
-        </div>
-        <div class="section">
-            <div class="section-title">💬 Dar Pistas</div>
-            <p>Turnense para decir palabras relacionadas con su secreto. ¡Traten de no ser demasiado obvios!</p>
-        </div>
-        <div class="section">
-            <div class="section-title">🔍 Encontrar al Impostor</div>
-            <p>Discutan y voten sobre quién no conoce la palabra. ¡Si se equivocan, gana el impostor!</p>
+        <div class="content-container">
+            <div class="how-to-play">Cómo jugar</div>
+            <div class="section">
+                <div class="section-title">⚙️ Configurar Juego</div>
+                <p>Elige jugadores y categorías de palabras. ¡Un jugador será el impostor secreto!</p>
+            </div>
+            <div class="section">
+                <div class="section-title">👁️ Revelar Palabras</div>
+                <p>Todos ven su palabra excepto el impostor - ellos solo ven la categoría.</p>
+            </div>
+            <div class="section">
+                <div class="section-title">💬 Dar Pistas</div>
+                <p>Turnense para decir palabras relacionadas con su secreto. ¡Traten de no ser demasiado obvios!</p>
+            </div>
+            <div class="section">
+                <div class="section-title">🔍 Encontrar al Impostor</div>
+                <p>Discutan y voten sobre quién no conoce la palabra. ¡Si se equivocan, gana el impostor!</p>
+            </div>
         </div>
     </div>
 
     <div id="config-screen" class="screen">
         <div class="back-button" onclick="showScreen('start-screen')">&lt;</div>
-        <div class="config-label">Configuración del juego</div>
-        <div class="config-label">¿Cuántos jugadores?</div>
-        <div class="counter">
-            <button class="counter-button" onclick="changeCount('players', -1)">-</button>
-            <div class="counter-value" id="players-count">4</div>
-            <button class="counter-button" onclick="changeCount('players', 1)">+</button>
+        <div class="content-container">
+            <div class="config-label">Configuración del juego</div>
+            <div class="config-label">¿Cuántos jugadores?</div>
+            <div class="counter">
+                <button class="counter-button" onclick="changeCount('players', -1)">-</button>
+                <div class="counter-value" id="players-count">4</div>
+                <button class="counter-button" onclick="changeCount('players', 1)">+</button>
+            </div>
+            <div class="config-label">¿Cuántos impostores?</div>
+            <div class="counter">
+                <button class="counter-button" onclick="changeCount('impostors', -1)">-</button>
+                <div class="counter-value" id="impostors-count">1</div>
+                <button class="counter-button" onclick="changeCount('impostors', 1)">+</button>
+            </div>
+            <div class="config-label">Editar jugadores</div>
+            <div class="players-list" id="players-list"></div>
+            <div class="config-label">Categorías</div>
+            <select id="category-select">
+                <option value="random">Aleatoria</option>
+                <option value="Animales">Animales</option>
+                <option value="Comida">Comida</option>
+                <option value="Profesiones">Profesiones</option>
+                <option value="Objetos del hogar">Objetos del hogar</option>
+                <option value="Deportes">Deportes</option>
+                <option value="Películas">Películas</option>
+                <option value="Países">Países</option>
+                <option value="Marcas">Marcas</option>
+                <option value="Partes del cuerpo">Partes del cuerpo</option>
+                <option value="Instrumentos musicales">Instrumentos musicales</option>
+                <option value="Ciudades">Ciudades</option>
+                <option value="Frutas">Frutas</option>
+                <option value="Verduras">Verduras</option>
+                <option value="Utensilios para el colegio">Utensilios para el colegio</option>
+                <option value="Superhéroes">Superhéroes</option>
+                <option value="Personas famosas">Personas famosas</option>
+                <option value="Cosas que hay en una cocina">Cosas que hay en una cocina</option>
+                <option value="Malas costumbres">Malas costumbres</option>
+                <option value="Enfermedades">Enfermedades</option>
+                <option value="Sexo">Sexo (+18 años)</option>
+            </select>
+            <button class="button" onclick="startGame()">Iniciar juego</button>
         </div>
-        <div class="config-label">¿Cuántos impostores?</div>
-        <div class="counter">
-            <button class="counter-button" onclick="changeCount('impostors', -1)">1</button>
-            <div class="counter-value" id="impostors-count">1</div>
-            <button class="counter-button" onclick="changeCount('impostors', 1)">+</button>
-        </div>
-        <div class="config-label">Editar jugadores</div>
-        <div class="players-list" id="players-list"></div>
-        <div class="config-label">Categorías</div>
-        <select id="category-select">
-            <option value="random">Aleatoria</option>
-            <option value="Animales">Animales</option>
-            <option value="Comida">Comida</option>
-            <option value="Profesiones">Profesiones</option>
-            <option value="Objetos del hogar">Objetos del hogar</option>
-            <option value="Deportes">Deportes</option>
-            <option value="Películas">Películas</option>
-            <option value="Países">Países</option>
-            <option value="Marcas">Marcas</option>
-            <option value="Partes del cuerpo">Partes del cuerpo</option>
-            <option value="Instrumentos musicales">Instrumentos musicales</option>
-            <option value="Ciudades">Ciudades</option>
-            <option value="Frutas">Frutas</option>
-            <option value="Verduras">Verduras</option>
-            <option value="Utensilios para el colegio">Utensilios para el colegio</option>
-            <option value="Superhéroes">Superhéroes</option>
-            <option value="Personas famosas">Personas famosas</option>
-            <option value="Cosas que hay en una cocina">Cosas que hay en una cocina</option>
-            <option value="Malas costumbres">Malas costumbres</option>
-            <option value="Enfermedades">Enfermedades</option>
-            <option value="Sexo">Sexo (+18 años)</option>
-        </select>
-        <button class="button" onclick="startGame()">Iniciar juego</button>
     </div>
 
     <div id="players-screen" class="screen">
         <div class="back-button" onclick="showScreen('config-screen')">&lt;</div>
-        <div class="how-to-play">Jugadores</div>
-        <div class="subtitle">Toca tu nombre para revelar tu palabra y luego pasa el dispositivo al siguiente jugador.</div>
-        <div class="players-grid" id="players-grid"></div>
-        <button id="proceed-button" class="button" onclick="showScreen('voting-screen')">Comenzar discusión</button>
+        <div class="content-container">
+            <div class="how-to-play">Jugadores</div>
+            <div class="subtitle">Toca tu nombre para revelar tu palabra y luego pasa el dispositivo al siguiente jugador.</div>
+            <div class="players-grid" id="players-grid"></div>
+            <button id="proceed-button" class="button" onclick="showScreen('voting-screen')">Comenzar discusión</button>
+        </div>
     </div>
 
     <div id="reveal-screen" class="screen">
         <div class="back-button" onclick="showScreen('players-screen')">&lt;</div>
-        <div class="subtitle" id="reveal-title">La palabra para [Nombre]</div>
-        <div class="reveal-box" id="reveal-box">
-            <div class="particles" id="particles"></div>
-            <div class="reveal-text">Toca la caja para revelar</div>
+        <div class="content-container">
+            <div class="subtitle" id="reveal-title">La palabra para [Nombre]</div>
+            <div class="reveal-box" id="reveal-box">
+                <div class="particles" id="particles"></div>
+                <div class="reveal-text">Toca la caja para revelar</div>
+            </div>
+            <button class="button" onclick="afterReveal()">¡Entendido!</button>
         </div>
-        <button class="button" onclick="afterReveal()">¡Entendido!</button>
     </div>
 
     <div id="voting-screen" class="screen">
-        <div class="back-button" onclick="showScreen('game-screen')">&lt;</div>
-        <div class="voting-screen">
-            <div class="how-to-play">Fase de Votación</div>
-            <div class="subtitle">¡Es hora de discutir y votar por el impostor!</div>
-            <button class="button reveal-results" onclick="revealResults()">Revelar resultados</button>
+        <div class="back-button" onclick="showScreen('players-screen')">&lt;</div>
+        <div class="content-container">
+            <div class="voting-screen">
+                <div class="how-to-play">Fase de Votación</div>
+                <div class="subtitle">¡Es hora de discutir y votar por el impostor!</div>
+                <button class="button reveal-results" onclick="revealResults()">Revelar resultados</button>
+            </div>
         </div>
     </div>
 
     <div id="final-screen" class="screen">
         <div class="back-button" onclick="showScreen('start-screen')">&lt;</div>
-        <div class="final-screen">
-            <div class="how-to-play">Resultados</div>
-            <div id="impostors-reveal"></div>
-            <button class="button" onclick="showScreen('start-screen')">Jugar de nuevo</button>
+        <div class="content-container">
+            <div class="final-screen">
+                <div class="how-to-play">Resultados</div>
+                <div id="impostors-reveal"></div>
+                <button class="button" onclick="showScreen('start-screen')">Jugar de nuevo</button>
+            </div>
         </div>
     </div>
 
@@ -423,7 +462,7 @@
             "Verduras": ["lechuga", "tomate", "pepino", "zanahoria", "brócoli", "coliflor", "espinaca", "pimiento", "cebolla", "ajo", "patata", "calabaza", "berenjena", "remolacha", "apio", "espárrago", "col", "rábano", "puerro", "champiñón", "alcachofa", "judía verde", "guisante", "maíz", "nabo", "okura", "chayote", "endibia", "acelga", "ruibarbo"],
             "Utensilios para el colegio": ["lápiz", "bolígrafo", "goma", "sacapuntas", "regla", "compás", "cuaderno", "mochila", "tijeras", "pegamento", "estuche", "calculadora", "rotulador", "subrayador", "carpeta", "folios", "agenda", "pizarra", "tiza", "borrador", "transportador", "diccionario", "libro", "cartulina", "témpera", "pincel", "plastilina", "tijeras de punta redonda", "grapadora", "perforadora"],
             "Superhéroes": ["superman", "batman", "spider-man", "wonder woman", "iron man", "capitán américa", "thor", "hulk", "black widow", "flash", "aquaman", "green lantern", "doctor strange", "wolverine", "deadpool", "capitana marvel", "black panther", "ant-man", "wasp", "hawkman", "shazam", "cyborg", "supergirl", "green arrow", "nightwing", "robin", "batgirl", "storm", "jean grey", "cyclops"],
-            "Personas famosas": ["cristiano ronaldo", "lionel messi", "beyoncé", "taylor swift", "elvis presley", "michael jackson", "madonna", "donald trump", "barack obama", "queen elizabeth", "albert einstein", "stephen hawking", "picasso", "van gogh", "shakespeare", "messi", "neymar", "lebron james", "michael jordan", "oprah winfrey", "angelina jolie", "brad pitt", "leonardo dicaprio", "johnny depp", "tom cruise", "jennifer lopez", "lady gaga", "rihanna", "justin bieber", "drake"],
+            "Personas famosas": ["cristiano ronaldo", "lionel messi", "beyoncé", "taylor swift", "elvis presley", "michael jackson", "madonna", "donald trump", "barack obma", "queen elizabeth", "albert einstein", "stephen hawking", "picasso", "van gogh", "shakespeare", "messi", "neymar", "lebron james", "michael jordan", "oprah winfrey", "angelina jolie", "brad pitt", "leonardo dicaprio", "johnny depp", "tom cruise", "jennifer lopez", "lady gaga", "rihanna", "justin bieber", "drake"],
             "Cosas que hay en una cocina": ["olla", "sartén", "cuchillo", "tenedor", "cuchara", "plato", "vaso", "taza", "cafetera", "tostadora", "microondas", "horno", "nevera", "lavavajillas", "fregadero", "encimera", "armario", "estantería", "tabla de cortar", "batidora", "licuadora", "exprimidor", "rallador", "colador", "cucharón", "espátula", "rodillo", "molde", "termómetro", "papel de horno"],
             "Malas costumbres": ["fumar", "comerse las uñas", "llegar tarde", "interrumpir", "chismorrear", "mentir", "procastinar", "gritar", "ser egoísta", "no escuchar", "juzgar", "criticar", "quejarse", "envidiar", "celar", "robar", "engañar", "gastar demasiado", "comer comida chatarra", "beber en exceso", "ver demasiada tv", "usar mucho el móvil", "no hacer ejercicio", "dormir poco", "hablar alto", "ser desordenado", "no lavarse las manos", "morderse los labios", "tocarse el pelo", "rascarse"],
             "Enfermedades": ["gripe", "resfriado", "dolor de cabeza", "fiebre", "tos", "dolor de garganta", "diarrea", "vómitos", "alergia", "asma", "diabetes", "hipertensión", "cáncer", "artritis", "alzheimer", "parkinson", "epilepsia", "migraña", "apendicitis", "neumonía", "bronquitis", "hepatitis", "varicela", "sarampión", "rubeola", "paperas", "dengue", "malaria", "covid-19", "ébola"],
