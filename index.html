@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Impostor – Juego de palabras</title>
+    <link rel="manifest" href="data:application/manifest+json,{
+        &quot;name&quot;: &quot;Impostor – Juego de palabras&quot;,
+        &quot;short_name&quot;: &quot;Impostor&quot;,
+        &quot;start_url&quot;: &quot;.&quot;,
+        &quot;display&quot;: &quot;standalone&quot;,
+        &quot;background_color&quot;: &quot;#000033&quot;,
+        &quot;theme_color&quot;: &quot;#8B00FF&quot;,
+        &quot;icons&quot;: [
+            {
+                &quot;src&quot;: &quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAQMAAAD58POIAAAABlBMVEUAAAD///+l2Z/dAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAB3RJTUUH5wMDFAsX0QAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAIElEQVRo3u3BAQ0AAAIcA5v9pKACgAEAAAD//wABpAABJAAAABJ0RVh0RVhUAAAAAAAEAABpAAAAAAA=&quot;,
+                &quot;sizes&quot;: &quot;128x128&quot;,
+                &quot;type&quot;: &quot;image/png&quot;
+            }
+        ]
+    }">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #000033, #000066);
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        .active {
+            display: flex;
+        }
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            text-shadow: 0 0 10px #8B00FF, 0 0 20px #4B0082;
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: #ccc;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .button {
+            background: linear-gradient(to bottom, #8B00FF, #4B0082);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 15px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+            width: 80%;
+            max-width: 300px;
+            box-shadow: 0 0 10px #8B00FF;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .how-to-play {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .config-label {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .counter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .counter-button {
+            background: #4B0082;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            margin: 0 10px;
+            box-shadow: 0 0 5px #8B00FF;
+        }
+        .counter-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .players-list {
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .player-input {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 10px;
+            margin: 5px 0;
+            width: 100%;
+            border-radius: 10px;
+            text-align: center;
+        }
+        select {
+            background: #4B0082;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            width: 90%;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 90%;
+            margin: 20px 0;
+        }
+        .player-card {
+            background: linear-gradient(to bottom, #4B0082, #2A004D);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 0 10px #8B00FF;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .player-card.revealed {
+            filter: grayscale(100%);
+            opacity: 0.7;
+            cursor: default;
+        }
+        .player-initial {
+            background: linear-gradient(to bottom, #8B00FF, #4B0082);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 auto 10px;
+            box-shadow: 0 0 10px #8B00FF;
+        }
+        .player-name {
+            font-size: 18px;
+            text-align: center;
+        }
+        .reveal-box {
+            background: linear-gradient(to bottom, #000066, #000033);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            width: 80%;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px #4B0082;
+            cursor: pointer;
+        }
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 5s infinite linear;
+            opacity: 0.5;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
+        }
+        @keyframes float-down {
+            0% { transform: translateY(-100px); }
+            100% { transform: translateY(0); }
+        }
+        .reveal-text {
+            font-size: 24px;
+            color: #ccc;
+        }
+        .word {
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 0 0 10px cyan, 0 0 20px cyan;
+            color: cyan;
+            animation: glow 2s ease-in-out infinite;
+        }
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px cyan, 0 0 20px cyan; }
+            50% { text-shadow: 0 0 20px cyan, 0 0 30px #00ffff, 0 0 40px #00ffff; }
+            100% { text-shadow: 0 0 10px cyan, 0 0 20px cyan; }
+        }
+        .impostor {
+            font-size: 36px;
+            font-weight: bold;
+            color: red;
+            text-shadow: 0 0 10px red, 0 0 20px red;
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+        .hint {
+            font-size: 24px;
+            color: #ffcccc;
+            margin-top: 10px;
+        }
+        .category {
+            font-size: 18px;
+            color: #ccc;
+            margin-top: 10px;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+        }
+        .voting-screen {
+            text-align: center;
+        }
+        .reveal-results {
+            background: red;
+            color: white;
+        }
+        .final-screen {
+            text-align: center;
+        }
+        .impostor-reveal {
+            font-size: 24px;
+            color: red;
+            margin: 10px 0;
+        }
+        #proceed-button {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="start-screen" class="screen active">
+        <div class="back-button" onclick="history.back()">&lt;</div>
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTUwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjE1MCI+CiAgPHBhdGggZD0iTTUwIDEwIEM3MCAxMCA4NSAyNSA4NSA0NSBDODUgNjUgNzAgODAgNTAgODAgQzMwIDgwIDE1IDY1IDE1IDQ1IEMxNSAyNSAzMCAxMCA1MCAxMCBaIE01MCA4NSBDNzUgODUgOTUgMTAwIDk1IDEyMCBWMTUwIEg1IFYxMjAgQzUgMTAwIDI1IDg1IDUwIDg1IFoiIGZpbGw9InJlZCIvPgo8L3N2Zz4=" style="width: 200px; filter: drop-shadow(0 0 10px #FF0000); margin-bottom: 20px;" alt="Impostor Logo">
+        <div class="logo">Llega el Impostor</div>
+        <div class="subtitle">Juego de fiesta con ideas ocultas y pistas astutas</div>
+        <button class="button" onclick="showScreen('config-screen')">Empezar</button>
+        <button class="button" onclick="showScreen('howto-screen')">Cómo jugar</button>
+    </div>
+
+    <div id="howto-screen" class="screen">
+        <div class="back-button" onclick="showScreen('start-screen')">&lt;</div>
+        <div class="how-to-play">Cómo jugar</div>
+        <div class="section">
+            <div class="section-title">⚙️ Configurar Juego</div>
+            <p>Elige jugadores y categorías de palabras. ¡Un jugador será el impostor secreto!</p>
+        </div>
+        <div class="section">
+            <div class="section-title">👁️ Revelar Palabras</div>
+            <p>Todos ven su palabra excepto el impostor - ellos solo ven la categoría.</p>
+        </div>
+        <div class="section">
+            <div class="section-title">💬 Dar Pistas</div>
+            <p>Turnense para decir palabras relacionadas con su secreto. ¡Traten de no ser demasiado obvios!</p>
+        </div>
+        <div class="section">
+            <div class="section-title">🔍 Encontrar al Impostor</div>
+            <p>Discutan y voten sobre quién no conoce la palabra. ¡Si se equivocan, gana el impostor!</p>
+        </div>
+    </div>
+
+    <div id="config-screen" class="screen">
+        <div class="back-button" onclick="showScreen('start-screen')">&lt;</div>
+        <div class="config-label">Configuración del juego</div>
+        <div class="config-label">¿Cuántos jugadores?</div>
+        <div class="counter">
+            <button class="counter-button" onclick="changeCount('players', -1)">-</button>
+            <div class="counter-value" id="players-count">4</div>
+            <button class="counter-button" onclick="changeCount('players', 1)">+</button>
+        </div>
+        <div class="config-label">¿Cuántos impostores?</div>
+        <div class="counter">
+            <button class="counter-button" onclick="changeCount('impostors', -1)">1</button>
+            <div class="counter-value" id="impostors-count">1</div>
+            <button class="counter-button" onclick="changeCount('impostors', 1)">+</button>
+        </div>
+        <div class="config-label">Editar jugadores</div>
+        <div class="players-list" id="players-list"></div>
+        <div class="config-label">Categorías</div>
+        <select id="category-select">
+            <option value="random">Aleatoria</option>
+            <option value="Animales">Animales</option>
+            <option value="Comida">Comida</option>
+            <option value="Profesiones">Profesiones</option>
+            <option value="Objetos del hogar">Objetos del hogar</option>
+            <option value="Deportes">Deportes</option>
+            <option value="Películas">Películas</option>
+            <option value="Países">Países</option>
+            <option value="Marcas">Marcas</option>
+            <option value="Partes del cuerpo">Partes del cuerpo</option>
+            <option value="Instrumentos musicales">Instrumentos musicales</option>
+            <option value="Ciudades">Ciudades</option>
+            <option value="Frutas">Frutas</option>
+            <option value="Verduras">Verduras</option>
+            <option value="Utensilios para el colegio">Utensilios para el colegio</option>
+            <option value="Superhéroes">Superhéroes</option>
+            <option value="Personas famosas">Personas famosas</option>
+            <option value="Cosas que hay en una cocina">Cosas que hay en una cocina</option>
+            <option value="Malas costumbres">Malas costumbres</option>
+            <option value="Enfermedades">Enfermedades</option>
+            <option value="Sexo">Sexo (+18 años)</option>
+        </select>
+        <button class="button" onclick="startGame()">Iniciar juego</button>
+    </div>
+
+    <div id="players-screen" class="screen">
+        <div class="back-button" onclick="showScreen('config-screen')">&lt;</div>
+        <div class="how-to-play">Jugadores</div>
+        <div class="subtitle">Toca tu nombre para revelar tu palabra y luego pasa el dispositivo al siguiente jugador.</div>
+        <div class="players-grid" id="players-grid"></div>
+        <button id="proceed-button" class="button" onclick="showScreen('voting-screen')">Comenzar discusión</button>
+    </div>
+
+    <div id="reveal-screen" class="screen">
+        <div class="back-button" onclick="showScreen('players-screen')">&lt;</div>
+        <div class="subtitle" id="reveal-title">La palabra para [Nombre]</div>
+        <div class="reveal-box" id="reveal-box">
+            <div class="particles" id="particles"></div>
+            <div class="reveal-text">Toca la caja para revelar</div>
+        </div>
+        <button class="button" onclick="afterReveal()">¡Entendido!</button>
+    </div>
+
+    <div id="voting-screen" class="screen">
+        <div class="back-button" onclick="showScreen('game-screen')">&lt;</div>
+        <div class="voting-screen">
+            <div class="how-to-play">Fase de Votación</div>
+            <div class="subtitle">¡Es hora de discutir y votar por el impostor!</div>
+            <button class="button reveal-results" onclick="revealResults()">Revelar resultados</button>
+        </div>
+    </div>
+
+    <div id="final-screen" class="screen">
+        <div class="back-button" onclick="showScreen('start-screen')">&lt;</div>
+        <div class="final-screen">
+            <div class="how-to-play">Resultados</div>
+            <div id="impostors-reveal"></div>
+            <button class="button" onclick="showScreen('start-screen')">Jugar de nuevo</button>
+        </div>
+    </div>
+
+    <script>
+        const categories = {
+            "Animales": ["perro", "gato", "león", "tigre", "elefante", "jirafa", "mono", "oso", "lobo", "zorro", "caballo", "vaca", "cerdo", "oveja", "gallina", "pato", "pez", "tiburón", "águila", "búho", "serpiente", "cocodrilo", "rana", "tortuga", "pingüino", "delfín", "ballena", "murciélago", "ardilla", "conejo"],
+            "Comida": ["pizza", "hamburguesa", "pasta", "sushi", "tacos", "ensalada", "sopa", "helado", "pastel", "fruta", "manzana", "banana", "naranja", "arroz", "pan", "queso", "leche", "huevo", "carne", "pescado", "chocolate", "café", "té", "galleta", "sandwich", "burrito", "empanada", "croissant", "donut", "paella"],
+            "Profesiones": ["doctor", "ingeniero", "profesor", "abogado", "policía", "bombero", "chef", "actor", "músico", "escritor", "pintor", "científico", "agricultor", "mecánico", "piloto", "enfermero", "arquitecto", "diseñador", "programador", "periodista", "dentista", "veterinario", "electricista", "plumber", "camarero", "gerente", "contador", "fotógrafo", "entrenador", "psicólogo"],
+            "Objetos del hogar": ["mesa", "silla", "sofá", "cama", "lámpara", "televisión", "refrigerador", "horno", "microondas", "lavadora", "aspiradora", "espejo", "reloj", "libro", "vaso", "plato", "cuchillo", "tenedor", "cuchara", "toalla", "cortina", "alfombra", "almohada", "mantel", "jarra", "sartén", "cepillo", "pasta dental", "ducha", "bañera"],
+            "Deportes": ["fútbol", "baloncesto", "tenis", "natación", "ciclismo", "running", "boxeo", "golf", "voleibol", "béisbol", "cricket", "esquí", "surf", "gimnasia", "atletismo", "rugby", "hockey", "karate", "yoga", "escalada", "taekwondo", "judo", "lucha", "ping pong", "badminton", "fórmula 1", "motociclismo", "equitación", "remo", "vela"],
+            "Películas": ["titanic", "inception", "matrix", "jurassic park", "star wars", "harry potter", "lord of the rings", "avengers", "frozen", "toy story", "shrek", "batman", "superman", "spider-man", "godfather", "pulp fiction", "forrest gump", "schindler's list", "casablanca", "citizen kane", "inception", "fight club", "goodfellas", "the shawshank redemption", "the dark knight", "interstellar", "parasite", "joker", "avatar", "endgame"],
+            "Países": ["españa", "francia", "italia", "alemania", "japón", "china", "estados unidos", "canadá", "méxico", "brasil", "argentina", "australia", "india", "rusia", "reino unido", "egipto", "sudáfrica", "turquía", "corea del sur", "nueva zelanda", "portugal", "grecia", "holanda", "suiza", "suecia", "noruega", "finlandia", "dinamarca", "irlanda", "polonia"],
+            "Marcas": ["nike", "adidas", "apple", "samsung", "coca-cola", "pepsi", "microsoft", "google", "amazon", "tesla", "facebook", "instagram", "twitter", "netflix", "disney", "mercedes", "bmw", "audi", "ferrari", "gucci", "chanel", "louis vuitton", "prada", "versace", "h&m", "zara", "ikea", "mcdonald's", "burger king", "starbucks"],
+            "Partes del cuerpo": ["cabeza", "ojo", "nariz", "boca", "oreja", "cuello", "hombro", "brazo", "mano", "dedo", "pecho", "espalda", "estómago", "pierna", "rodilla", "pie", "tobillo", "cabello", "diente", "lengua", "uña", "codo", "muñeca", "cadera", "talón", "frente", "mejilla", "barbilla", "párpado", "pestaña"],
+            "Instrumentos musicales": ["guitarra", "piano", "batería", "violín", "flauta", "trompeta", "saxofón", "bajo", "arpa", "chelo", "teclado", "acordeón", "banjo", "ukelele", "clarinete", "oboe", "trombón", "tuba", "armónica", "xilófono", "marimba", "triángulo", "tambor", "gong", "sitar", "didgeridoo", "mandolina", "theremin", "cencerro", "castañuelas"],
+            "Ciudades": ["madrid", "parís", "roma", "berlín", "tokio", "pekín", "nueva york", "toronto", "ciudad de méxico", "río de janeiro", "buenos aires", "sídney", "bombay", "moscú", "londres", "el cairo", "ciudad del cabo", "estambul", "seúl", "auckland", "lisboa", "atenas", "amsterdam", "ginebra", "estocolmo", "oslo", "helsinki", "copenhague", "dublín", "varsovia"],
+            "Frutas": ["manzana", "banana", "naranja", "pera", "uva", "fresa", "sandía", "melón", "piña", "kiwi", "mango", "papaya", "coco", "limón", "lima", "granada", "durazno", "albaricoque", "ciruela", "higo", "frambuesa", "mora", "arándano", "guayaba", "maracuyá", "lichi", "dragon fruit", "carambola", "pomelo", "mandarina"],
+            "Verduras": ["lechuga", "tomate", "pepino", "zanahoria", "brócoli", "coliflor", "espinaca", "pimiento", "cebolla", "ajo", "patata", "calabaza", "berenjena", "remolacha", "apio", "espárrago", "col", "rábano", "puerro", "champiñón", "alcachofa", "judía verde", "guisante", "maíz", "nabo", "okura", "chayote", "endibia", "acelga", "ruibarbo"],
+            "Utensilios para el colegio": ["lápiz", "bolígrafo", "goma", "sacapuntas", "regla", "compás", "cuaderno", "mochila", "tijeras", "pegamento", "estuche", "calculadora", "rotulador", "subrayador", "carpeta", "folios", "agenda", "pizarra", "tiza", "borrador", "transportador", "diccionario", "libro", "cartulina", "témpera", "pincel", "plastilina", "tijeras de punta redonda", "grapadora", "perforadora"],
+            "Superhéroes": ["superman", "batman", "spider-man", "wonder woman", "iron man", "capitán américa", "thor", "hulk", "black widow", "flash", "aquaman", "green lantern", "doctor strange", "wolverine", "deadpool", "capitana marvel", "black panther", "ant-man", "wasp", "hawkman", "shazam", "cyborg", "supergirl", "green arrow", "nightwing", "robin", "batgirl", "storm", "jean grey", "cyclops"],
+            "Personas famosas": ["cristiano ronaldo", "lionel messi", "beyoncé", "taylor swift", "elvis presley", "michael jackson", "madonna", "donald trump", "barack obama", "queen elizabeth", "albert einstein", "stephen hawking", "picasso", "van gogh", "shakespeare", "messi", "neymar", "lebron james", "michael jordan", "oprah winfrey", "angelina jolie", "brad pitt", "leonardo dicaprio", "johnny depp", "tom cruise", "jennifer lopez", "lady gaga", "rihanna", "justin bieber", "drake"],
+            "Cosas que hay en una cocina": ["olla", "sartén", "cuchillo", "tenedor", "cuchara", "plato", "vaso", "taza", "cafetera", "tostadora", "microondas", "horno", "nevera", "lavavajillas", "fregadero", "encimera", "armario", "estantería", "tabla de cortar", "batidora", "licuadora", "exprimidor", "rallador", "colador", "cucharón", "espátula", "rodillo", "molde", "termómetro", "papel de horno"],
+            "Malas costumbres": ["fumar", "comerse las uñas", "llegar tarde", "interrumpir", "chismorrear", "mentir", "procastinar", "gritar", "ser egoísta", "no escuchar", "juzgar", "criticar", "quejarse", "envidiar", "celar", "robar", "engañar", "gastar demasiado", "comer comida chatarra", "beber en exceso", "ver demasiada tv", "usar mucho el móvil", "no hacer ejercicio", "dormir poco", "hablar alto", "ser desordenado", "no lavarse las manos", "morderse los labios", "tocarse el pelo", "rascarse"],
+            "Enfermedades": ["gripe", "resfriado", "dolor de cabeza", "fiebre", "tos", "dolor de garganta", "diarrea", "vómitos", "alergia", "asma", "diabetes", "hipertensión", "cáncer", "artritis", "alzheimer", "parkinson", "epilepsia", "migraña", "apendicitis", "neumonía", "bronquitis", "hepatitis", "varicela", "sarampión", "rubeola", "paperas", "dengue", "malaria", "covid-19", "ébola"],
+            "Sexo": ["pene", "vagina", "orgasmo", "beso", "caricia", "masturbación", "coito", "felación", "cunnilingus", "anal", "condón", "lubricante", "vibrador", "dildo", "eyaculación", "erección", "clítoris", "labios", "testículos", "ovarios", "útero", "semen", "menstruación", "libido", "afrodisíaco", "fetiche", "sadomasoquismo", "trío", "orgía", "preliminares"]
+        };
+
+        let players = [];
+        let impostors = [];
+        let secretCategory = '';
+        let secretWord = '';
+        let hints = {};
+        let currentPlayerIndex = -1;
+        let revealedPlayers = new Set();
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            if (screenId === 'players-screen') {
+                updatePlayersGrid();
+                checkAllRevealed();
+            }
+        }
+
+        function changeCount(type, delta) {
+            const countElem = document.getElementById(`${type}-count`);
+            let count = parseInt(countElem.textContent);
+            if (type === 'players') {
+                count = Math.max(3, Math.min(100, count + delta));
+                const maxImpostors = count - 2;
+                const impostorsElem = document.getElementById('impostors-count');
+                let impostorsCount = parseInt(impostorsElem.textContent);
+                if (impostorsCount > maxImpostors) {
+                    impostorsElem.textContent = maxImpostors;
+                }
+            } else if (type === 'impostors') {
+                const playersCount = parseInt(document.getElementById('players-count').textContent);
+                count = Math.max(1, Math.min(playersCount - 2, count + delta));
+            }
+            countElem.textContent = count;
+            updatePlayersList();
+        }
+
+        function updatePlayersList() {
+            const count = parseInt(document.getElementById('players-count').textContent);
+            const list = document.getElementById('players-list');
+            list.innerHTML = '';
+            players = [];
+            for (let i = 0; i < count; i++) {
+                const input = document.createElement('input');
+                input.classList.add('player-input');
+                input.value = `Jugador ${i + 1}`;
+                list.appendChild(input);
+                players.push(input.value);
+            }
+            // Update on change
+            list.querySelectorAll('input').forEach((input, i) => {
+                input.addEventListener('input', () => {
+                    players[i] = input.value;
+                });
+            });
+        }
+
+        function startGame() {
+            // Get final players names
+            document.getElementById('players-list').querySelectorAll('input').forEach((input, i) => {
+                players[i] = input.value || `Jugador ${i + 1}`;
+            });
+
+            // Get current time for seed
+            const now = new Date();
+            const hour = now.getHours();
+            const min = now.getMinutes();
+            const sec = now.getSeconds();
+            const seed = hour * 3600 + min * 60 + sec;
+
+            // Choose category
+            let selectedCat = document.getElementById('category-select').value;
+            const catKeys = Object.keys(categories);
+            if (selectedCat === 'random') {
+                const catIndex = seed % catKeys.length;
+                selectedCat = catKeys[catIndex];
+            }
+            secretCategory = selectedCat;
+            const words = categories[secretCategory];
+            const wordIndex = seed % words.length;
+            secretWord = words[wordIndex];
+
+            // Assign impostors using time-based "random"
+            const numImpostors = parseInt(document.getElementById('impostors-count').textContent);
+            impostors = [];
+            let tempPlayers = [...Array(players.length).keys()];
+            // Simple shuffle with seed
+            for (let i = tempPlayers.length - 1; i > 0; i--) {
+                const j = (seed + i) % (i + 1);
+                [tempPlayers[i], tempPlayers[j]] = [tempPlayers[j], tempPlayers[i]];
+            }
+            impostors = tempPlayers.slice(0, numImpostors);
+
+            revealedPlayers.clear();
+            updatePlayersGrid();
+            showScreen('players-screen');
+        }
+
+        function updatePlayersGrid() {
+            const grid = document.getElementById('players-grid');
+            grid.innerHTML = '';
+            players.forEach((name, i) => {
+                const card = document.createElement('div');
+                card.classList.add('player-card');
+                if (revealedPlayers.has(i)) {
+                    card.classList.add('revealed');
+                } else {
+                    card.onclick = () => showReveal(i);
+                }
+                const initial = document.createElement('div');
+                initial.classList.add('player-initial');
+                initial.textContent = name[0].toUpperCase();
+                const nameElem = document.createElement('div');
+                nameElem.classList.add('player-name');
+                nameElem.textContent = name;
+                card.appendChild(initial);
+                card.appendChild(nameElem);
+                grid.appendChild(card);
+            });
+        }
+
+        function showReveal(index) {
+            currentPlayerIndex = index;
+            const title = document.getElementById('reveal-title');
+            title.textContent = `La palabra para ${players[index]}`;
+            const box = document.getElementById('reveal-box');
+            box.innerHTML = '<div class="particles" id="particles"></div><div class="reveal-text">Toca la caja para revelar</div>';
+            createParticles('initial');
+            box.onclick = revealWord;
+            box.style.border = '';
+            box.style.boxShadow = '0 0 20px #4B0082';
+            showScreen('reveal-screen');
+        }
+
+        function createParticles(mode) {
+            const particles = document.getElementById('particles');
+            particles.innerHTML = '';
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 5 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                if (mode === 'happy') {
+                    particle.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    particle.style.animationName = 'float';
+                } else if (mode === 'sad') {
+                    particle.style.background = `hsl(0, 0%, ${Math.random() * 50 + 20}%)`;
+                    particle.style.animationName = 'float-down';
+                    particle.style.top = 'auto';
+                    particle.style.bottom = `${Math.random() * 100}%`;
+                } else {
+                    particle.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    particle.style.animationName = 'float';
+                }
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                particle.style.animationDelay = `${Math.random() * 2}s`;
+                particles.appendChild(particle);
+            }
+        }
+
+        function revealWord() {
+            const box = document.getElementById('reveal-box');
+            box.onclick = null;
+            const isImpostor = impostors.includes(currentPlayerIndex);
+            let content = '';
+            if (isImpostor) {
+                content = `
+                    <div class="impostor">Impostor</div>
+                    <div class="category">Categoría: ${secretCategory}</div>
+                `;
+                box.style.border = '2px solid red';
+                box.style.boxShadow = '0 0 20px red';
+                createParticles('sad');
+            } else {
+                content = `
+                    <div class="word">${secretWord}</div>
+                    <div class="category">Categoría: ${secretCategory}</div>
+                `;
+                box.style.border = '2px solid cyan';
+                box.style.boxShadow = '0 0 20px cyan';
+                createParticles('happy');
+            }
+            box.innerHTML = content;
+            revealedPlayers.add(currentPlayerIndex);
+        }
+
+        function afterReveal() {
+            showScreen('players-screen');
+            checkAllRevealed();
+        }
+
+        function checkAllRevealed() {
+            const proceedButton = document.getElementById('proceed-button');
+            if (revealedPlayers.size === players.length) {
+                proceedButton.style.display = 'block';
+            } else {
+                proceedButton.style.display = 'none';
+            }
+        }
+
+        function revealResults() {
+            const revealDiv = document.getElementById('impostors-reveal');
+            revealDiv.innerHTML = '';
+            impostors.forEach(imp => {
+                const div = document.createElement('div');
+                div.classList.add('impostor-reveal');
+                div.textContent = `${players[imp]} era el impostor!`;
+                revealDiv.appendChild(div);
+            });
+            showScreen('final-screen');
+        }
+
+        // Init
+        updatePlayersList();
+
+        // Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));
+                self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
+                self.addEventListener('fetch', e => e.respondWith(fetch(e.request)));
+            `;
+            const swBlob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(swBlob);
+            navigator.serviceWorker.register(swUrl).catch(console.error);
+        }
+    </script>
+</body>
+</html>
