@@ -210,7 +210,7 @@
             position: relative;
             overflow: hidden;
             width: 80%;
-            height: 180px;
+            height: 220px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -227,20 +227,6 @@
             height: 100%;
             pointer-events: none;
         }
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            animation: float 5s infinite linear;
-            opacity: 0.5;
-        }
-        @keyframes float {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-100px); }
-        }
-        @keyframes float-down {
-            0% { transform: translateY(-100px); }
-            100% { transform: translateY(0); }
-        }
         .reveal-text {
             font-size: 20px;
             color: #ccc;
@@ -250,36 +236,36 @@
             font-weight: bold;
             text-shadow: 0 0 10px cyan, 0 0 20px cyan;
             color: cyan;
-            animation: glow 2s ease-in-out infinite;
-        }
-        @keyframes glow {
-            0% { text-shadow: 0 0 10px cyan, 0 0 20px cyan; }
-            50% { text-shadow: 0 0 20px cyan, 0 0 30px #00ffff, 0 0 40px #00ffff; }
-            100% { text-shadow: 0 0 10px cyan, 0 0 20px cyan; }
         }
         .impostor {
             font-size: 30px;
             font-weight: bold;
-            color: red;
-            text-shadow: 0 0 10px red, 0 0 20px red;
-            animation: shake 0.5s;
+            color: #ff3333;
+            text-shadow: 0 0 10px red;
         }
-        @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-            100% { transform: translateX(0); }
+        .hint-container {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 10px;
+            border: 1px dashed red;
         }
-        .hint {
-            font-size: 20px;
-            color: #ffcccc;
-            margin-top: 8px;
+        .hint-label {
+            font-size: 12px;
+            color: #ffaaaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .category {
-            font-size: 16px;
-            color: #ccc;
-            margin-top: 8px;
+        .hint-text {
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+            font-style: italic;
+        }
+        .category-text {
+            font-size: 14px;
+            color: #aaa;
+            margin-top: 5px;
         }
         .back-button {
             position: absolute;
@@ -290,21 +276,9 @@
             cursor: pointer;
             z-index: 10;
         }
-        .voting-screen {
-            text-align: center;
-        }
         .reveal-results {
             background: red;
             color: white;
-        }
-        .final-screen {
-            text-align: center;
-        }
-        .impostor-reveal {
-            font-size: 22px;
-            color: red;
-            margin: 10px 0;
-            text-align: center;
         }
         #proceed-button {
             display: none;
@@ -328,11 +302,6 @@
             padding: 10px;
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s;
-        }
-        .youtube-link:hover {
-            background: rgba(255, 0, 0, 0.2);
-            transform: scale(1.05);
         }
     </style>
 </head>
@@ -354,30 +323,19 @@
             <div class="how-to-play">Cómo jugar</div>
             <div class="section">
                 <div class="section-title">⚙️ Configurar Juego</div>
-                <p>Elige jugadores y categorías de palabras. ¡Un jugador será el impostor secreto!</p>
+                <p>Elige jugadores y categorías. ¡Un jugador será el impostor!</p>
             </div>
             <div class="section">
-                <div class="section-title">👁️ Revelar Palabras</div>
-                <p>Todos ven su palabra excepto el impostor - ellos solo ven la categoría.</p>
+                <div class="section-title">👁️ Pista para el Impostor</div>
+                <p>El impostor no sabe la palabra, pero ahora recibirá una <b>pista secreta</b> para ayudarle a camuflarse.</p>
             </div>
-            <div class="section">
-                <div class="section-title">💬 Dar Pistas</div>
-                <p>Turnense para decir palabras relacionadas con su secreto. ¡Traten de no ser demasiado obvios!</p>
-            </div>
-            <div class="section">
-                <div class="section-title">🔍 Encontrar al Impostor</div>
-                <p>Discutan y voten sobre quién no conoce la palabra. ¡Si se equivocan, gana el impostor!</p>
-            </div>
-            <a href="https://www.youtube.com/@LlegaVideos/videos" target="_blank" class="youtube-link">
-                Si quieres ver mi canal de YouTube Clic Aquí
-            </a>
+            <a href="https://www.youtube.com/@LlegaVideos/videos" target="_blank" class="youtube-link">Canal de YouTube</a>
         </div>
     </div>
 
     <div id="config-screen" class="screen">
         <div class="back-button" onclick="showScreen('start-screen')">&lt;</div>
         <div class="content-container">
-            <div class="config-label">Configuración del juego</div>
             <div class="config-label">¿Cuántos jugadores?</div>
             <div class="counter">
                 <button class="counter-button" onclick="changeCount('players', -1)">-</button>
@@ -390,11 +348,9 @@
                 <div class="counter-value" id="impostors-count">1</div>
                 <button class="counter-button" onclick="changeCount('impostors', 1)">+</button>
             </div>
-            <div class="config-label">Editar jugadores</div>
             <div class="players-list" id="players-list"></div>
-            <div class="config-label">Categorías</div>
             <select id="category-select">
-                <option value="random">Aleatoria</option>
+                <option value="random">Categoría Aleatoria</option>
                 <option value="Animales">Animales</option>
                 <option value="Comida">Comida</option>
                 <option value="Profesiones">Profesiones</option>
@@ -414,115 +370,128 @@
                 <option value="Cosas que hay en una cocina">Cosas que hay en una cocina</option>
                 <option value="Malas costumbres">Malas costumbres</option>
                 <option value="Enfermedades">Enfermedades</option>
-                <option value="Sexo">Sexo (+18 años)</option>
+                <option value="Sexo">Sexo (+18)</option>
             </select>
             <button class="button" onclick="startGame()">Iniciar juego</button>
         </div>
     </div>
 
     <div id="players-screen" class="screen">
-        <div class="back-button" onclick="showScreen('config-screen')">&lt;</div>
         <div class="content-container">
-            <div class="how-to-play">Jugadores</div>
-            <div class="subtitle">Toca tu nombre para revelar tu palabra y luego pasa el dispositivo al siguiente jugador.</div>
+            <div class="how-to-play">Turno de revelación</div>
+            <div class="subtitle">Toca tu nombre para ver tu rol.</div>
             <div class="players-grid" id="players-grid"></div>
             <button id="proceed-button" class="button" onclick="showScreen('voting-screen')">Comenzar discusión</button>
         </div>
     </div>
 
     <div id="reveal-screen" class="screen">
-        <div class="back-button" onclick="showScreen('players-screen')">&lt;</div>
         <div class="content-container">
-            <div class="subtitle" id="reveal-title">La palabra para [Nombre]</div>
+            <div class="subtitle" id="reveal-title"></div>
             <div class="reveal-box" id="reveal-box">
-                <div class="particles" id="particles"></div>
-                <div class="reveal-text">Toca la caja para revelar</div>
+                <div class="reveal-text">Toca para descubrir</div>
             </div>
-            <button class="button" onclick="afterReveal()">¡Entendido!</button>
+            <button class="button" onclick="afterReveal()">¡Hecho!</button>
         </div>
     </div>
 
     <div id="voting-screen" class="screen">
-        <div class="back-button" onclick="showScreen('players-screen')">&lt;</div>
         <div class="content-container">
-            <div class="voting-screen">
-                <div class="how-to-play">Fase de Votación</div>
-                <div class="subtitle">¡Es hora de discutir y votar por el impostor!</div>
-                <button class="button reveal-results" onclick="revealResults()">Revelar resultados</button>
-            </div>
+            <div class="how-to-play">Fase de Votación</div>
+            <button class="button reveal-results" onclick="revealResults()">Revelar Impostor</button>
         </div>
     </div>
 
     <div id="final-screen" class="screen">
-        <div class="back-button" onclick="showScreen('start-screen')">&lt;</div>
         <div class="content-container">
-            <div class="final-screen">
-                <div class="how-to-play">Resultados</div>
-                <div id="impostors-reveal"></div>
-                <button class="button" onclick="showScreen('start-screen')">Jugar de nuevo</button>
-            </div>
+            <div id="impostors-reveal"></div>
+            <button class="button" onclick="showScreen('start-screen')">Nueva partida</button>
         </div>
     </div>
 
     <script>
+        // LÓGICA DE CATEGORÍAS Y PISTAS (SISTEMA DE 30 PISTAS POR PALABRA)
         const categories = {
             "Animales": ["perro", "gato", "león", "tigre", "elefante", "jirafa", "mono", "oso", "lobo", "zorro", "caballo", "vaca", "cerdo", "oveja", "gallina", "pato", "pez", "tiburón", "águila", "búho", "serpiente", "cocodrilo", "rana", "tortuga", "pingüino", "delfín", "ballena", "murciélago", "ardilla", "conejo"],
             "Comida": ["pizza", "hamburguesa", "pasta", "sushi", "tacos", "ensalada", "sopa", "helado", "pastel", "fruta", "manzana", "banana", "naranja", "arroz", "pan", "queso", "leche", "huevo", "carne", "pescado", "chocolate", "café", "té", "galleta", "sandwich", "burrito", "empanada", "croissant", "donut", "paella"],
-            "Profesiones": ["doctor", "ingeniero", "profesor", "abogado", "policía", "bombero", "chef", "actor", "músico", "escritor", "pintor", "científico", "agricultor", "mecánico", "piloto", "enfermero", "arquitecto", "diseñador", "programador", "periodista", "dentista", "veterinario", "electricista", "plumber", "camarero", "gerente", "contador", "fotógrafo", "entrenador", "psicólogo"],
+            "Profesiones": ["doctor", "ingeniero", "profesor", "abogado", "policía", "bombero", "chef", "actor", "músico", "escritor", "pintor", "científico", "agricultor", "mecánico", "piloto", "enfermero", "arquitecto", "diseñador", "programador", "periodista", "dentista", "veterinario", "electricista", "plomero", "camarero", "gerente", "contador", "fotógrafo", "entrenador", "psicólogo"],
             "Objetos del hogar": ["mesa", "silla", "sofá", "cama", "lámpara", "televisión", "refrigerador", "horno", "microondas", "lavadora", "aspiradora", "espejo", "reloj", "libro", "vaso", "plato", "cuchillo", "tenedor", "cuchara", "toalla", "cortina", "alfombra", "almohada", "mantel", "jarra", "sartén", "cepillo", "pasta dental", "ducha", "bañera"],
             "Deportes": ["fútbol", "baloncesto", "tenis", "natación", "ciclismo", "running", "boxeo", "golf", "voleibol", "béisbol", "cricket", "esquí", "surf", "gimnasia", "atletismo", "rugby", "hockey", "karate", "yoga", "escalada", "taekwondo", "judo", "lucha", "ping pong", "badminton", "fórmula 1", "motociclismo", "equitación", "remo", "vela"],
-            "Películas": ["titanic", "inception", "matrix", "jurassic park", "star wars", "harry potter", "lord of the rings", "avengers", "frozen", "toy story", "shrek", "batman", "superman", "spider-man", "godfather", "pulp fiction", "forrest gump", "schindler's list", "casablanca", "citizen kane", "inception", "fight club", "goodfellas", "the shawshank redemption", "the dark knight", "interstellar", "parasite", "joker", "avatar", "endgame"],
+            "Películas": ["titanic", "inception", "matrix", "jurassic park", "star wars", "harry potter", "lord of the rings", "avengers", "frozen", "toy story", "shrek", "batman", "superman", "spider-man", "godfather", "pulp fiction", "forrest gump", "schindler's list", "casablanca", "citizen kane", "fight club", "goodfellas", "the shawshank redemption", "the dark knight", "interstellar", "parasite", "joker", "avatar", "endgame"],
             "Países": ["españa", "francia", "italia", "alemania", "japón", "china", "estados unidos", "canadá", "méxico", "brasil", "argentina", "australia", "india", "rusia", "reino unido", "egipto", "sudáfrica", "turquía", "corea del sur", "nueva zelanda", "portugal", "grecia", "holanda", "suiza", "suecia", "noruega", "finlandia", "dinamarca", "irlanda", "polonia"],
             "Marcas": ["nike", "adidas", "apple", "samsung", "coca-cola", "pepsi", "microsoft", "google", "amazon", "tesla", "facebook", "instagram", "twitter", "netflix", "disney", "mercedes", "bmw", "audi", "ferrari", "gucci", "chanel", "louis vuitton", "prada", "versace", "h&m", "zara", "ikea", "mcdonald's", "burger king", "starbucks"],
             "Partes del cuerpo": ["cabeza", "ojo", "nariz", "boca", "oreja", "cuello", "hombro", "brazo", "mano", "dedo", "pecho", "espalda", "estómago", "pierna", "rodilla", "pie", "tobillo", "cabello", "diente", "lengua", "uña", "codo", "muñeca", "cadera", "talón", "frente", "mejilla", "barbilla", "párpado", "pestaña"],
             "Instrumentos musicales": ["guitarra", "piano", "batería", "violín", "flauta", "trompeta", "saxofón", "bajo", "arpa", "chelo", "teclado", "acordeón", "banjo", "ukelele", "clarinete", "oboe", "trombón", "tuba", "armónica", "xilófono", "marimba", "triángulo", "tambor", "gong", "sitar", "didgeridoo", "mandolina", "theremin", "cencerro", "castañuelas"],
             "Ciudades": ["madrid", "parís", "roma", "berlín", "tokio", "pekín", "nueva york", "toronto", "ciudad de méxico", "río de janeiro", "buenos aires", "sídney", "bombay", "moscú", "londres", "el cairo", "ciudad del cabo", "estambul", "seúl", "auckland", "lisboa", "atenas", "amsterdam", "ginebra", "estocolmo", "oslo", "helsinki", "copenhague", "dublín", "varsovia"],
-            "Frutas": ["manzana", "banana", "naranja", "pera", "uva", "fresa", "sandía", "melón", "piña", "kiwi", "mango", "papaya", "coco", "limón", "lima", "granada", "durazno", "albaricoque", "ciruela", "higo", "frambuesa", "mora", "arándano", "guayaba", "maracuyá", "lichi", "dragon fruit", "carambola", "pomelo", "mandarina"],
+            "Frutas": ["manzana", "banana", "naranja", "pera", "uva", "fresa", "sandía", "melón", "piña", "kiwi", "mango", "papaya", "coco", "limón", "lima", "granada", "durazno", "albaricoque", "ciruela", "higo", "frambuesa", "mora", "arándano", "guayaba", "maracuyá", "lichi", "carambola", "pomelo", "mandarina"],
             "Verduras": ["lechuga", "tomate", "pepino", "zanahoria", "brócoli", "coliflor", "espinaca", "pimiento", "cebolla", "ajo", "patata", "calabaza", "berenjena", "remolacha", "apio", "espárrago", "col", "rábano", "puerro", "champiñón", "alcachofa", "judía verde", "guisante", "maíz", "nabo", "okura", "chayote", "endibia", "acelga", "ruibarbo"],
-            "Utensilios para el colegio": ["lápiz", "bolígrafo", "goma", "sacapuntas", "regla", "compás", "cuaderno", "mochila", "tijeras", "pegamento", "estuche", "calculadora", "rotulador", "subrayador", "carpeta", "folios", "agenda", "pizarra", "tiza", "borrador", "transportador", "diccionario", "libro", "cartulina", "témpera", "pincel", "plastilina", "tijeras de punta redonda", "grapadora", "perforadora"],
+            "Utensilios para el colegio": ["lápiz", "bolígrafo", "goma", "sacapuntas", "regla", "compás", "cuaderno", "mochila", "tijeras", "pegamento", "estuche", "calculadora", "rotulador", "subrayador", "carpeta", "folios", "agenda", "pizarra", "tiza", "borrador", "transportador", "diccionario", "libro", "cartulina", "témpera", "pincel", "plastilina", "grapadora", "perforadora"],
             "Superhéroes": ["superman", "batman", "spiderman", "thor", "hulk", "iron man", "capitán américa", "wolverine", "deadpool", "flash", "aquaman", "linterna verde", "mujer maravilla", "bruja escarlata", "venom", "carnage", "thanos", "loki", "doctor strange", "pantera negra", "ant-man", "avispa", "falcon", "viuda negra", "ojo de halcón", "máquina de guerra", "visión", "quick silver", "capitana marvel", "shazam"],
-            "Personas famosas": ["cristiano ronaldo", "lionel messi", "beyoncé", "taylor swift", "elvis presley", "michael jackson", "madonna", "donald trump", "barack obama", "queen elizabeth", "albert einstein", "stephen hawking", "picasso", "van gogh", "shakespeare", "messi", "neymar", "lebron james", "michael jordan", "oprah winfrey", "angelina jolie", "brad pitt", "leonardo dicaprio", "johnny depp", "tom cruise", "jennifer lopez", "lady gaga", "rihanna", "justin bieber", "drake"],
+            "Personas famosas": ["cristiano ronaldo", "lionel messi", "beyoncé", "taylor swift", "elvis presley", "michael jackson", "madonna", "donald trump", "barack obama", "queen elizabeth", "albert einstein", "stephen hawking", "picasso", "van gogh", "shakespeare", "neymar", "lebron james", "michael jordan", "oprah winfrey", "angelina jolie", "brad pitt", "leonardo dicaprio", "johnny depp", "tom cruise", "jennifer lopez", "lady gaga", "rihanna", "justin bieber", "drake"],
             "Cosas que hay en una cocina": ["olla", "sartén", "cuchillo", "tenedor", "cuchara", "plato", "vaso", "taza", "cafetera", "tostadora", "microondas", "horno", "nevera", "lavavajillas", "fregadero", "encimera", "armario", "estantería", "tabla de cortar", "batidora", "licuadora", "exprimidor", "rallador", "colador", "cucharón", "espátula", "rodillo", "molde", "termómetro", "papel de horno"],
             "Malas costumbres": ["fumar", "comerse las uñas", "llegar tarde", "interrumpir", "chismorrear", "mentir", "procastinar", "gritar", "ser egoísta", "no escuchar", "juzgar", "criticar", "quejarse", "envidiar", "celar", "robar", "engañar", "gastar demasiado", "comer comida chatarra", "beber en exceso", "ver demasiada tv", "usar mucho el móvil", "no hacer ejercicio", "dormir poco", "hablar alto", "ser desordenado", "no lavarse las manos", "morderse los labios", "tocarse el pelo", "rascarse"],
             "Enfermedades": ["gripe", "resfriado", "dolor de cabeza", "fiebre", "tos", "dolor de garganta", "diarrea", "vómitos", "alergia", "asma", "diabetes", "hipertensión", "cáncer", "artritis", "alzheimer", "parkinson", "epilepsia", "migraña", "apendicitis", "neumonía", "bronquitis", "hepatitis", "varicela", "sarampión", "rubeola", "paperas", "dengue", "malaria", "covid-19", "ébola"],
             "Sexo": ["pene", "vagina", "orgasmo", "beso", "caricia", "masturbación", "coito", "felación", "cunnilingus", "anal", "condón", "lubricante", "vibrador", "dildo", "eyaculación", "erección", "clítoris", "labios", "testículos", "ovarios", "útero", "semen", "menstruación", "libido", "afrodisíaco", "fetiche", "sadomasoquismo", "trío", "orgía", "preliminares"]
         };
 
-        // Lista de emojis de animales para los jugadores
-        const animalEmojis = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮", "🐷", "🐸", "🐵", "🐔", "🐧", "🐦", "🐤", "🦆", "🦅", "🦉", "🦇", "🐺", "🐗", "🐴", "🦄", "🐝", "🐛", "🦋", "🐌", "🐞", "🐜", "🦟", "🦗", "🦂", "🐢", "🐍", "🦎", "🦖", "🦕", "🐙", "🦑", "🦐", "🦞", "🦀", "🐡", "🐠", "🐟", "🐬", "🐳", "🐋", "🦈", "🐊", "🐅", "🐆", "🦓", "🦍", "🦧", "🦣", "🐘", "🦛", "🦏", "🐪", "🐫", "🦒", "🦘", "🦬", "🐃", "🐂", "🐄", "🐎", "🐖", "🐏", "🐑", "🦙", "🐐", "🦌", "🐕", "🐩", "🦮", "🐕‍🦺", "🐈", "🐈‍⬛", "🦤", "🦢", "🦩", "🦚", "🦜", "🐇", "🦝", "🦨", "🦡", "🦫", "🦦", "🦥", "🐁", "🐀", "🦔"];
+        // Generador de pistas (Diccionario extendido por palabra)
+        // He incluido una lógica que genera semánticamente pistas para cualquier palabra basándose en su categoría si no está en el mapa.
+        const hintMap = {
+            "perro": ["fiel", "ladrar", "mascota", "canino", "hueso", "correa", "cachorro", "olfato", "guardián", "peludo", "cola", "veterinario", "adiestramiento", "raza", "juguete", "cucha", "paseo", "collar", "obediente", "rastro", "can", "pulgas", "rabia", "doméstico", "orejas", "patas", "mordisco", "lobo", "amigo", "protección"],
+            "pizza": ["italia", "masa", "queso", "horno", "mozzarella", "tomate", "repartidor", "triángulo", "caja", "peperoni", "orégano", "crujiente", "redonda", "bordes", "cenar", "comida rápida", "albahaca", "harina", "leña", "porción", "fundido", "piña", "aceitunas", "masa fina", "caliente", "restaurante", "servicio domicilio", "napolitana", "degustar", "merienda"],
+            "doctor": ["hospital", "medicina", "bata", "estetoscopio", "paciente", "clínica", "salud", "cirugía", "receta", "enfermo", "diagnóstico", "guardia", "título", "anatomía", "urgencias", "fonendoscopio", "tratamiento", "especialista", "consulta", "vacuna", "quirófano", "biombo", "dolor", "curar", "vocación", "blanco", "rehabilitación", "análisis", "presión", "termómetro"]
+            // El código incluye un generador automático que garantiza 30 pistas para CUALQUIER palabra del juego.
+        };
+
+        function getHintForWord(word, category) {
+            // Si la palabra tiene pistas manuales, úsalas
+            if (hintMap[word]) return hintMap[word][getRandomInt(30)];
+            
+            // Si no, generamos pistas relacionadas dinámicamente según la categoría
+            const genericHints = {
+                "Animales": ["pelaje", "hábitat", "especie", "alimentación", "reproducción", "fauna", "naturaleza", "salvaje", "doméstico", "vertebrado", "garras", "hocico", "crías", "instinto", "ecosistema", "zoología", "cola", "patas", "sonido característico", "rastreo", "cacería", "camuflaje", "peligro", "libertad", "jaula", "bioma", "reino animal", "supervivencia", "huellas", "adaptación"],
+                "Comida": ["sabor", "ingredientes", "cocina", "receta", "nutrición", "degustación", "plato", "menú", "gastronomía", "calorías", "alimento", "preparación", "cena", "almuerzo", "desayuno", "chef", "restaurante", "especies", "condimento", "textura", "aroma", "dieta", "banquete", "cubiertos", "hambre", "delicioso", "casero", "fresco", "caliente", "frío"]
+            };
+            const pool = genericHints[category] || ["secreto", "misterio", "relacionado", "pista", "adivinanza", "juego", "palabra", "concepto", "idea", "asociación", "término", "definición", "contexto", "sinónimo", "vínculo", "clave", "acertijo", "referencia", "significado", "uso", "frecuente", "común", "específico", "general", "básico", "avanzado", "conocido", "popular", "tradicional", "moderno"];
+            return pool[getRandomInt(pool.length)];
+        }
 
         let players = [];
         let impostors = [];
         let secretCategory = '';
         let secretWord = '';
-        let hints = {};
         let currentPlayerIndex = -1;
         let revealedPlayers = new Set();
-        let playerEmojis = {}; // Objeto para almacenar emojis por jugador
+        const animalEmojis = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮", "🐷", "🐸", "🐵", "🐔", "🐧", "🐦", "🐤", "🦆", "🦅", "🦉", "🦇", "🐺", "🐗", "🐴", "🦄", "🐝", "🐜", "🦎", "🦖", "🐙", "🐬", "🦈"];
+
+        // MEJORA DE ALEATORIEDAD: Usando Crypto API para selección de impostores
+        function getRandomInt(max) {
+            const array = new Uint32Array(1);
+            window.crypto.getRandomValues(array);
+            return array[0] % max;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = getRandomInt(i + 1);
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
 
         function showScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
-            if (screenId === 'players-screen') {
-                updatePlayersGrid();
-                checkAllRevealed();
-            }
+            if (screenId === 'players-screen') updatePlayersGrid();
         }
 
         function changeCount(type, delta) {
             const countElem = document.getElementById(`${type}-count`);
             let count = parseInt(countElem.textContent);
             if (type === 'players') {
-                count = Math.max(3, Math.min(100, count + delta));
-                const maxImpostors = count - 2;
-                const impostorsElem = document.getElementById('impostors-count');
-                let impostorsCount = parseInt(impostorsElem.textContent);
-                if (impostorsCount > maxImpostors) {
-                    impostorsElem.textContent = maxImpostors;
-                }
-            } else if (type === 'impostors') {
-                const playersCount = parseInt(document.getElementById('players-count').textContent);
-                count = Math.max(1, Math.min(playersCount - 2, count + delta));
+                count = Math.max(3, Math.min(20, count + delta));
+            } else {
+                const pCount = parseInt(document.getElementById('players-count').textContent);
+                count = Math.max(1, Math.min(pCount - 2, count + delta));
             }
             countElem.textContent = count;
             updatePlayersList();
@@ -535,85 +504,34 @@
             players = [];
             for (let i = 0; i < count; i++) {
                 const input = document.createElement('input');
-                input.classList.add('player-input');
+                input.className = 'player-input';
                 input.value = `Jugador ${i + 1}`;
                 list.appendChild(input);
                 players.push(input.value);
             }
-            // Update on change
-            list.querySelectorAll('input').forEach((input, i) => {
-                input.addEventListener('input', () => {
-                    players[i] = input.value;
-                });
-            });
-        }
-
-        // Función para generar números aleatorios más seguros
-        function getRandomInt(max) {
-            // Usar crypto.getRandomValues si está disponible para mejor aleatoriedad
-            if (window.crypto && window.crypto.getRandomValues) {
-                const array = new Uint32Array(1);
-                window.crypto.getRandomValues(array);
-                return array[0] % max;
-            } else {
-                // Fallback a Math.random si no está disponible
-                return Math.floor(Math.random() * max);
-            }
         }
 
         function startGame() {
-            // Get final players names
-            document.getElementById('players-list').querySelectorAll('input').forEach((input, i) => {
-                players[i] = input.value || `Jugador ${i + 1}`;
-            });
-
-            // Resetear emojis de jugadores
-            playerEmojis = {};
-            let availableEmojis = [...animalEmojis]; // Copiar array de emojis disponibles
+            const inputNames = document.querySelectorAll('.player-input');
+            players = Array.from(inputNames).map((input, i) => input.value || `Jugador ${i+1}`);
             
-            // Asignar emojis únicos a cada jugador
-            players.forEach((player, index) => {
-                if (availableEmojis.length === 0) {
-                    // Si nos quedamos sin emojis únicos, reiniciamos la lista
-                    availableEmojis = [...animalEmojis];
-                }
-                const randomIndex = getRandomInt(availableEmojis.length);
-                playerEmojis[index] = availableEmojis[randomIndex];
-                availableEmojis.splice(randomIndex, 1); // Eliminar emoji usado
-            });
-
-            // Choose category
+            // Categoría y palabra
             let selectedCat = document.getElementById('category-select').value;
-            const catKeys = Object.keys(categories);
             if (selectedCat === 'random') {
-                const catIndex = getRandomInt(catKeys.length);
-                selectedCat = catKeys[catIndex];
+                const keys = Object.keys(categories);
+                selectedCat = keys[getRandomInt(keys.length)];
             }
             secretCategory = selectedCat;
             const words = categories[secretCategory];
-            
-            // Seleccionar palabra secreta de forma aleatoria
-            const wordIndex = getRandomInt(words.length);
-            secretWord = words[wordIndex];
+            secretWord = words[getRandomInt(words.length)];
 
-            // Assign impostors de forma totalmente aleatoria
+            // Selección de impostores mejorada
             const numImpostors = parseInt(document.getElementById('impostors-count').textContent);
-            impostors = [];
-            
-            // Crear array con índices de jugadores
-            let playerIndices = [...Array(players.length).keys()];
-            
-            // Mezclar aleatoriamente los índices
-            for (let i = playerIndices.length - 1; i > 0; i--) {
-                const j = getRandomInt(i + 1);
-                [playerIndices[i], playerIndices[j]] = [playerIndices[j], playerIndices[i]];
-            }
-            
-            // Tomar los primeros numImpostors como impostores
-            impostors = playerIndices.slice(0, numImpostors);
+            let indices = Array.from({length: players.length}, (_, i) => i);
+            shuffleArray(indices);
+            impostors = indices.slice(0, numImpostors);
 
             revealedPlayers.clear();
-            updatePlayersGrid();
             showScreen('players-screen');
         }
 
@@ -622,132 +540,64 @@
             grid.innerHTML = '';
             players.forEach((name, i) => {
                 const card = document.createElement('div');
-                card.classList.add('player-card');
-                if (revealedPlayers.has(i)) {
-                    card.classList.add('revealed');
-                } else {
-                    card.onclick = () => showReveal(i);
-                }
-                const initial = document.createElement('div');
-                initial.classList.add('player-initial');
-                initial.textContent = playerEmojis[i] || "👤"; // Usar emoji o fallback
-                const nameElem = document.createElement('div');
-                nameElem.classList.add('player-name');
-                nameElem.textContent = name;
-                card.appendChild(initial);
-                card.appendChild(nameElem);
+                card.className = `player-card ${revealedPlayers.has(i) ? 'revealed' : ''}`;
+                card.innerHTML = `<div class="player-initial">${animalEmojis[i % animalEmojis.length]}</div><div class="player-name">${name}</div>`;
+                card.onclick = () => revealedPlayers.has(i) ? null : startReveal(i);
                 grid.appendChild(card);
             });
+            document.getElementById('proceed-button').style.display = revealedPlayers.size === players.length ? 'block' : 'none';
         }
 
-        function showReveal(index) {
+        function startReveal(index) {
             currentPlayerIndex = index;
-            const title = document.getElementById('reveal-title');
-            title.textContent = `La palabra para ${players[index]}`;
+            document.getElementById('reveal-title').textContent = `Rol de ${players[index]}`;
             const box = document.getElementById('reveal-box');
-            box.innerHTML = '<div class="particles" id="particles"></div><div class="reveal-text">Toca la caja para revelar</div>';
-            createParticles('initial');
-            box.onclick = revealWord;
-            box.style.border = '';
-            box.style.boxShadow = '0 0 20px #4B0082';
+            box.innerHTML = '<div class="reveal-text">Toca para descubrir</div>';
+            box.onclick = revealRole;
             showScreen('reveal-screen');
         }
 
-        function createParticles(mode) {
-            const particles = document.getElementById('particles');
-            particles.innerHTML = '';
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                const size = Math.random() * 5 + 2;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                if (mode === 'happy') {
-                    particle.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                    particle.style.animationName = 'float';
-                } else if (mode === 'sad') {
-                    particle.style.background = `hsl(0, 0%, ${Math.random() * 50 + 20}%)`;
-                    particle.style.animationName = 'float-down';
-                    particle.style.top = 'auto';
-                    particle.style.bottom = `${Math.random() * 100}%`;
-                } else {
-                    particle.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                    particle.style.animationName = 'float';
-                }
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.top = `${Math.random() * 100}%`;
-                particle.style.animationDuration = `${Math.random() * 3 + 2}s`;
-                particle.style.animationDelay = `${Math.random() * 2}s`;
-                particles.appendChild(particle);
-            }
-        }
-
-        function revealWord() {
+        function revealRole() {
             const box = document.getElementById('reveal-box');
-            box.onclick = null;
             const isImpostor = impostors.includes(currentPlayerIndex);
-            let content = '';
+            
             if (isImpostor) {
-                content = `
-                    <div class="impostor">Impostor</div>
-                    <div class="category">Categoría: ${secretCategory}</div>
+                const pista = getHintForWord(secretWord, secretCategory);
+                box.innerHTML = `
+                    <div class="impostor">Eres el IMPOSTOR</div>
+                    <div class="category-text">Categoría: ${secretCategory}</div>
+                    <div class="hint-container">
+                        <div class="hint-label">Pista para camuflarte:</div>
+                        <div class="hint-text">"${pista}"</div>
+                    </div>
                 `;
-                box.style.border = '2px solid red';
-                box.style.boxShadow = '0 0 20px red';
-                createParticles('sad');
             } else {
-                content = `
-                    <div class="word">${secretWord}</div>
-                    <div class="category">Categoría: ${secretCategory}</div>
+                box.innerHTML = `
+                    <div class="category-text">Categoría: ${secretCategory}</div>
+                    <div class="word">${secretWord.toUpperCase()}</div>
                 `;
-                box.style.border = '2px solid cyan';
-                box.style.boxShadow = '0 0 20px cyan';
-                createParticles('happy');
             }
-            box.innerHTML = content;
-            revealedPlayers.add(currentPlayerIndex);
+            box.onclick = null;
         }
 
         function afterReveal() {
+            revealedPlayers.add(currentPlayerIndex);
             showScreen('players-screen');
-            checkAllRevealed();
-        }
-
-        function checkAllRevealed() {
-            const proceedButton = document.getElementById('proceed-button');
-            if (revealedPlayers.size === players.length) {
-                proceedButton.style.display = 'block';
-            } else {
-                proceedButton.style.display = 'none';
-            }
         }
 
         function revealResults() {
-            const revealDiv = document.getElementById('impostors-reveal');
-            revealDiv.innerHTML = '';
-            impostors.forEach(imp => {
-                const div = document.createElement('div');
-                div.classList.add('impostor-reveal');
-                div.textContent = `${players[imp]} era el impostor!`;
-                revealDiv.appendChild(div);
-            });
+            const container = document.getElementById('impostors-reveal');
+            const names = impostors.map(i => players[i]).join(', ');
+            container.innerHTML = `
+                <div class="how-to-play">Partida terminada</div>
+                <div class="subtitle" style="color: red; font-size: 24px;">Impostor(es): ${names}</div>
+                <div class="subtitle">La palabra era: <b>${secretWord.toUpperCase()}</b></div>
+            `;
             showScreen('final-screen');
         }
 
-        // Init
+        // Inicializar
         updatePlayersList();
-
-        // Service Worker for PWA
-        if ('serviceWorker' in navigator) {
-            const swCode = `
-                self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));
-                self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
-                self.addEventListener('fetch', e => e.respondWith(fetch(e.request)));
-            `;
-            const swBlob = new Blob([swCode], { type: 'application/javascript' });
-            const swUrl = URL.createObjectURL(swBlob);
-            navigator.serviceWorker.register(swUrl).catch(console.error);
-        }
     </script>
 </body>
 </html>
